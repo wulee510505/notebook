@@ -1,0 +1,11 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.sendtion.xrichtextdemo.ui.MainActivity">
+    <item
+        android:id="@+id/action_new_note"
+        android:orderInCategory="100"
+        android:title=""
+        android:icon="@mipmap/icon_new"
+        app:showAsAction="always" />
+</menu>
