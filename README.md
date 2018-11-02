@@ -6,7 +6,7 @@ http://bmob-cdn-14889.b0.upaiyun.com/2018/11/02/ab0557f840cae09c80197c5ccb9c8152
 
 效果图如下：
 
-![](https://github.com/wulee510505/zuji/blob/master/screenshots/notebook_1.jpg)
-![](https://github.com/wulee510505/zuji/blob/master/screenshots/notebook_2.jpg)
-![](https://github.com/wulee510505/zuji/blob/master/screenshots/notebook_3.jpg)
-![](https://github.com/wulee510505/zuji/blob/master/screenshots/notebook_4.jpg)
+![](https://github.com/wulee510505/nootbook/blob/master/screenshots/notebook_1.jpg)
+![](https://github.com/wulee510505/nootbook/blob/master/screenshots/notebook_2.jpg)
+![](https://github.com/wulee510505/nootbook/blob/master/screenshots/notebook_3.jpg)
+![](https://github.com/wulee510505/nootbook/blob/master/screenshots/notebook_4.jpg)
