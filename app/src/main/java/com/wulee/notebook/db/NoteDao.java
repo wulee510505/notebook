@@ -46,6 +46,7 @@ public class NoteDao {
                 note.setType(cursor.getInt(cursor.getColumnIndex("n_type")));
                 note.setBgColor(cursor.getString(cursor.getColumnIndex("n_bg_color")));
                 note.setIsEncrypt(cursor.getInt(cursor.getColumnIndex("n_encrypt")));
+                note.setUpdatedAt(cursor.getString(cursor.getColumnIndex("n_update_time")));
                 noteList.add(note);
             }
         } catch (Exception e) {
@@ -67,8 +68,8 @@ public class NoteDao {
     public long insertNote(Note note) {
         SQLiteDatabase db = helper.getWritableDatabase();
         String sql = "insert into db_note(n_id,n_title,n_content," +
-                "n_type,n_bg_color,n_encrypt) " +
-                "values(?,?,?,?,?,?)";
+                "n_type,n_bg_color,n_encrypt,n_create_time,n_update_time) " +
+                "values(?,?,?,?,?,?,?,?)";
 
         long ret = 0;
         //sql = "insert into ex_user(eu_login_name,eu_create_time,eu_update_time) values(?,?,?)";
@@ -81,6 +82,8 @@ public class NoteDao {
             stat.bindLong(4, note.getType());
             stat.bindString(5, note.getBgColor());
             stat.bindLong(6, note.getIsEncrypt());
+            stat.bindString(7, note.getCreatedAt());
+            stat.bindString(8, note.getUpdatedAt());
             ret = stat.executeInsert();
             db.setTransactionSuccessful();
         } catch (SQLException e) {
@@ -106,6 +109,8 @@ public class NoteDao {
         values.put("n_type", note.getType());
         values.put("n_bg_color", note.getBgColor());
         values.put("n_encrypt", note.getIsEncrypt());
+        values.put("n_create_time", note.getCreatedAt());
+        values.put("m_update_time", note.getUpdatedAt());
         db.update("db_note", values, "n_id=?", new String[]{note.getId()+""});
         db.close();
     }

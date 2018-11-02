@@ -66,5 +66,4 @@ public class Note extends BmobObject implements Serializable{
     public void setIsEncrypt(int isEncrypt) {
         this.isEncrypt = isEncrypt;
     }
-
 }

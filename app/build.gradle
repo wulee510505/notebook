@@ -14,8 +14,8 @@ android {
         applicationId "com.wulee.notebook"
         minSdkVersion 15
         targetSdkVersion 26
-        versionCode 4
-        versionName "1.0.3"
+        versionCode 6
+        versionName "1.0.5"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -53,6 +53,8 @@ dependencies {
     compile 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.30'
     compile 'com.yanzhenjie:permission:1.1.0'
     //bmob-sdk
-    compile 'cn.bmob.android:bmob-sdk:3.5.7'
+    compile 'cn.bmob.android:bmob-sdk:3.6.3'
     compile 'com.github.clans:fab:1.6.4'
+    compile 'com.gyf.barlibrary:barlibrary:2.3.0'
+    compile project(path: ':lib')
 }

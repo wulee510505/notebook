@@ -43,7 +43,28 @@
             android:textColor="@color/grey_600"
             android:layout_alignParentLeft="true"/>
 
+        <Switch
+            android:id="@+id/encrypt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_new_time"
+            android:layout_marginTop="10dp"
+            android:text="加密"
+            android:visibility="gone"
+            android:layout_alignParentLeft="true" />
 
+
+        <EditText
+            android:id="@+id/encryptKey"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/encrypt"
+            android:layout_marginLeft="22dp"
+            android:layout_toRightOf="@+id/encrypt"
+            android:ems="10"
+            android:visibility="gone"
+            android:hint="解密密钥"
+            android:inputType="textPassword" />
     </RelativeLayout>
 
     <TextView
@@ -56,6 +77,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:textSize="@dimen/text_size_18"
-        android:textColor="@color/grey_800"/>
+        android:textColor="@color/grey_800">
+
+
+    </com.wulee.notebook.xrichtext.RichTextEditor>
 
 </LinearLayout>

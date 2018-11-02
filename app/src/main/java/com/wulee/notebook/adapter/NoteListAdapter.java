@@ -17,7 +17,13 @@ public class NoteListAdapter extends BaseQuickAdapter<Note,BaseViewHolder> {
     @Override
     protected void convert(BaseViewHolder baseViewHolder,Note note) {
         baseViewHolder.setText(R.id.tv_list_title,note.getTitle());
-        baseViewHolder.setText(R.id.tv_list_summary,note.getContent());
-        baseViewHolder.setText(R.id.tv_list_time , note.getCreatedAt());
+
+        if (note.getIsEncrypt() > 0) {
+            baseViewHolder.setText(R.id.tv_list_summary,"Locked");
+        } else {
+            baseViewHolder.setText(R.id.tv_list_summary, note.getContent());
+        }
+
+        baseViewHolder.setText(R.id.tv_list_time , note.getUpdatedAt());
     }
 }

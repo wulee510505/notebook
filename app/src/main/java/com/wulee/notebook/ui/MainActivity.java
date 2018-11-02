@@ -10,10 +10,13 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.content.Context;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.github.clans.fab.FloatingActionButton;
@@ -49,13 +52,15 @@ import static com.wulee.notebook.App.aCache;
  */
 
 public class MainActivity extends BaseActivity implements View.OnClickListener{
+
+    final Context context = this;
+    private String key;
     private static final String TAG = "MainActivity";
     private SwipeRefreshLayout swipeLayout;
     private RecyclerView rv_list_main;
     private TextView tvNodata;
     private FloatingActionMenu fabMenu;
-    private FloatingActionButton fabCheckUpdate;
-    private FloatingActionButton fabLogout;
+    private FloatingActionButton fabCheckUpdate,fabLogout,fabAboutMe;
     private NoteListAdapter mNoteListAdapter;
     private List<Note> noteList;
     private NoteDao noteDao;
@@ -65,7 +70,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initView();
-        BmobUpdateAgent.forceUpdate(this);
+        checkUpdate();
     }
 
     private void initView() {
@@ -80,6 +85,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
         fabMenu =  findViewById(R.id.fab_menu);
         fabCheckUpdate =  findViewById(R.id.fab_check_update);
         fabLogout =  findViewById(R.id.fab_logout);
+        fabAboutMe=  findViewById(R.id.fab_about_me);
         rv_list_main.addItemDecoration(new SpacesItemDecoration(0));//设置item间距
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);//竖向列表
@@ -94,12 +100,63 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 final Note note = (Note) adapter.getData().get(position);
+                if (note.getIsEncrypt() > 0) {
+                    // get prompts.xml view
+                    LayoutInflater li = LayoutInflater.from(context);
+                    View promptsView = li.inflate(R.layout.pass_alert, null);
 
-                Intent intent = new Intent(MainActivity.this, NoteActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putSerializable("note", note);
-                intent.putExtra("data", bundle);
-                startActivity(intent);
+                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+                            context);
+
+                    // set prompts.xml to alertdialog builder
+                    alertDialogBuilder.setView(promptsView);
+
+                    final EditText userInput = (EditText) promptsView
+                            .findViewById(R.id.key);
+
+                    // set dialog message
+                    alertDialogBuilder
+                            .setCancelable(false)
+                            .setNegativeButton("确认",
+                                    new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog,int id) {
+                                            /** DO THE METHOD HERE WHEN PROCEED IS CLICKED*/
+                                            key = (userInput.getText()).toString();
+
+                                            /** CHECK FOR USER'S INPUT **/
+                                            // check password here
+                                            Intent intent = new Intent(MainActivity.this, NoteActivity.class);
+                                            Bundle bundle = new Bundle();
+                                            bundle.putSerializable("key", key);
+                                            bundle.putSerializable("note", note);
+                                            intent.putExtra("data", bundle);
+                                            startActivity(intent);
+                                        }
+                                    })
+                            .setPositiveButton("取消",
+                                    new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog,int id) {
+                                            dialog.dismiss();
+                                        }
+
+                                    }
+
+                            );
+
+                    // create alert dialog
+                    AlertDialog alertDialog = alertDialogBuilder.create();
+
+                    // show it
+                    alertDialog.show();
+
+
+                } else {
+                    Intent intent = new Intent(MainActivity.this, NoteActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("note", note);
+                    intent.putExtra("data", bundle);
+                    startActivity(intent);
+                }
             }
         });
 
@@ -161,6 +218,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
             }
         });
 
+        fabAboutMe.setOnClickListener(this);
         fabCheckUpdate.setOnClickListener(this);
         fabLogout.setOnClickListener(this);
     }
@@ -296,6 +354,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
                 break;
             case R.id.fab_logout:
                 showLogoutDialog();
+                break;
+            case R.id.fab_about_me:
+                startActivity(new Intent(this,AboutMeActivity.class));
                 break;
         }
     }

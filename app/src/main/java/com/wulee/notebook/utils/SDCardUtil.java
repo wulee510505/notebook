@@ -17,6 +17,22 @@ public class SDCardUtil {
 	public static String SDCardRoot = Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator;
 
 	/**
+	 * 获取sd卡的路径
+	 * @return
+	 */
+	public static String getESDString() {
+		return getESD().toString();
+	}
+
+	/**
+	 * 获取sd卡文件路径
+	 * @return
+	 */
+	public static File getESD() {
+		return Environment.getExternalStorageDirectory();
+	}
+
+	/**
 	 * 检查是否存在SDCard
 	 * @return
 	 */

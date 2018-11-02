@@ -5,6 +5,7 @@ import android.content.Context;
 
 import com.wulee.notebook.bean.Constant;
 import com.wulee.notebook.utils.ACache;
+import com.wulee.notebook.utils.CrashHandlerUtil;
 
 import cn.bmob.v3.Bmob;
 import cn.bmob.v3.BmobConfig;
@@ -19,6 +20,11 @@ public class App extends Application {
         super.onCreate();
         context = getApplicationContext();
         aCache = ACache.get(this);
+
+        //崩溃处理
+        CrashHandlerUtil crashHandlerUtil = CrashHandlerUtil.getInstance();
+        crashHandlerUtil.init(this);
+
         initBmobSDK();
     }
 

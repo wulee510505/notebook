@@ -15,6 +15,7 @@ import com.wulee.notebook.R;
 import com.wulee.notebook.bean.Note;
 import com.wulee.notebook.db.NoteDao;
 import com.wulee.notebook.utils.CommonUtil;
+import com.wulee.notebook.utils.CryptoUtils;
 import com.wulee.notebook.utils.SDCardUtil;
 import com.wulee.notebook.utils.StringUtils;
 import com.wulee.notebook.xrichtext.RichTextView;
@@ -42,6 +43,7 @@ public class NoteActivity extends BaseActivity {
     private String myTitle;
     private String myContent;
     private NoteDao noteDao;
+    private String key;
 
     private ProgressDialog loadingDialog;
     private Subscription subsLoading;
@@ -88,9 +90,22 @@ public class NoteActivity extends BaseActivity {
         Intent intent = getIntent();
         Bundle bundle = intent.getBundleExtra("data");
         note = (Note) bundle.getSerializable("note");
+        if (note.getIsEncrypt() > 0) {
+            key = (String) bundle.getSerializable("key");
+        }
 
         myTitle = note.getTitle();
         myContent = note.getContent();
+        if (note.getIsEncrypt() > 0) {
+            String plain = "";
+            CryptoUtils crypto = new CryptoUtils();
+            try {
+                plain = crypto.decrypt(myContent, key);
+            } catch (Exception e) {
+                // pass
+            }
+            //myContent = plain;
+        }
 
         tv_note_title.setText(myTitle);
         tv_note_content.post(new Runnable() {
@@ -100,7 +115,7 @@ public class NoteActivity extends BaseActivity {
                 showDataSync(myContent);
             }
         });
-        tv_note_time.setText(note.getCreatedAt());
+        tv_note_time.setText(note.getUpdatedAt());
         setTitle("笔记详情");
     }
 
