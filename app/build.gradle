@@ -56,5 +56,5 @@ dependencies {
     compile 'cn.bmob.android:bmob-sdk:3.6.3'
     compile 'com.github.clans:fab:1.6.4'
     compile 'com.gyf.barlibrary:barlibrary:2.3.0'
-    compile project(path: ':lib')
+    compile project(path: ':fplib')
 }
