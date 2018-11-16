@@ -35,8 +35,11 @@ import java.util.Date;
 import java.util.List;
 
 import cn.bmob.v3.BmobUser;
+import cn.bmob.v3.datatype.BmobFile;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.SaveListener;
+import cn.bmob.v3.listener.UpdateListener;
+import cn.bmob.v3.listener.UploadFileListener;
 import me.iwf.photopicker.PhotoPicker;
 import rx.Observable;
 import rx.Observer;
@@ -72,6 +75,9 @@ public class NewActivity extends BaseActivity {
     private int screenHeight;
     private Subscription subsLoading;
     private Subscription subsInsert;
+
+
+    private List<String> mImgUrls = new ArrayList<>();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -402,6 +408,8 @@ public class NewActivity extends BaseActivity {
                     ArrayList<String> photos = data.getStringArrayListExtra(PhotoPicker.KEY_SELECTED_PHOTOS);
                     //可以同时插入多张图片
                     for (String imagePath : photos) {
+                        mImgUrls.add(imagePath);
+                        uploadImgFile(imagePath);
                         //Log.i("NewActivity", "###path=" + imagePath);
                         Bitmap bitmap = ImageUtils.getSmallBitmap(imagePath, width, height);//压缩图片
                         //bitmap = BitmapFactory.decodeFile(imagePath);
@@ -438,6 +446,42 @@ public class NewActivity extends BaseActivity {
                         et_new_content.insertImage(imagePath, et_new_content.getMeasuredWidth());
                     }
                 });
+    }
+
+
+    /**
+     * 上传图片
+     * @param picPath
+     */
+    private void uploadImgFile(final String picPath) {
+        final BmobFile bmobFile = new BmobFile(new File(picPath));
+        bmobFile.uploadblock(new UploadFileListener() {
+            @Override
+            public void done(BmobException e) {
+                if (e == null) {
+                    note.setImgUrls(mImgUrls.toArray(new String[mImgUrls.size()]));
+                    showProgressBar("");
+                    note.update(note.getObjectId(),new UpdateListener() {
+                        @Override
+                        public void done(BmobException e) {
+                            hideProgressBar();
+                            if (e == null) {
+
+                            } else {
+                                Toast.makeText(NewActivity.this, "上传失败:" + e.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
+                } else {
+                    Toast.makeText(NewActivity.this, "上传失败", Toast.LENGTH_SHORT).show();
+                }
+            }
+            @Override
+            public void onProgress(Integer value) {
+                // 返回的上传进度（百分比）
+                Toast.makeText(NewActivity.this, "上传" + value + "%", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override

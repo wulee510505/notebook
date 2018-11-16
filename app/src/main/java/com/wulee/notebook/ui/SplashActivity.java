@@ -83,7 +83,7 @@ public class SplashActivity extends AppCompatActivity{
     private void startActivity() {
         final Intent intent;
         if(OtherUtil.hasLogin()){
-             intent = new Intent(SplashActivity.this, MainActivity.class);
+             intent = new Intent(SplashActivity.this, FPrintLockActivity.class);
         } else{
              intent = new Intent(this, LoginActivity.class);
         }

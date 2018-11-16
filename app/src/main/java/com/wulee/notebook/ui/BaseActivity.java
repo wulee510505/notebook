@@ -7,6 +7,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.gyf.barlibrary.ImmersionBar;
+import com.umeng.analytics.MobclickAgent;
 import com.wulee.notebook.R;
 import com.wulee.notebook.utils.AppUtils;
 
@@ -28,6 +29,19 @@ public class BaseActivity extends AppCompatActivity {
         }
         AppUtils.getAppManager().addActivity(this);
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        MobclickAgent.onResume(this);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        MobclickAgent.onPause(this);
+    }
+
 
     protected void initImmersionBar() {
         //在BaseActivity里初始化

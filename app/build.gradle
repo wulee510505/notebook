@@ -56,5 +56,10 @@ dependencies {
     compile 'cn.bmob.android:bmob-sdk:3.6.3'
     compile 'com.github.clans:fab:1.6.4'
     compile 'com.gyf.barlibrary:barlibrary:2.3.0'
+
+    //友盟
+    implementation 'com.umeng.sdk:common:latest.integration'
+    implementation 'com.umeng.sdk:analytics:latest.integration'
+
     compile project(path: ':fplib')
 }

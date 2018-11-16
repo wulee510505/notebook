@@ -3,6 +3,7 @@ package com.wulee.notebook;
 import android.app.Application;
 import android.content.Context;
 
+import com.umeng.commonsdk.UMConfigure;
 import com.wulee.notebook.bean.Constant;
 import com.wulee.notebook.utils.ACache;
 import com.wulee.notebook.utils.CrashHandlerUtil;
@@ -26,6 +27,7 @@ public class App extends Application {
         crashHandlerUtil.init(this);
 
         initBmobSDK();
+        UMConfigure.init(this, UMConfigure.DEVICE_TYPE_PHONE, "5be0076df1f5564ba000009e");
     }
 
 

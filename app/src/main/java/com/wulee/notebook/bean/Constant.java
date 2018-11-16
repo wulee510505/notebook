@@ -15,6 +15,9 @@ public class Constant {
 
     // 日志过期时间，默认为10天
     public static int LOG_EXPIRED_TIME = 10;
+    public static String KEY_LAST_CHECK_UPDATE_TIME = "key_last_check_update_time";
+    public static long CHECK_UPDATE_INTERVAL =  24 * 60 * 60 * 1000;// 24小时
 
     public static final String BOMB_APP_ID = "18a0989170b53784266c84d8e83fa8e1";
+
 }

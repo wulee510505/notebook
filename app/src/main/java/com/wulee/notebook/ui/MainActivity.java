@@ -1,14 +1,17 @@
 package com.wulee.notebook.ui;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -16,13 +19,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.content.Context;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
 import com.wulee.notebook.R;
 import com.wulee.notebook.adapter.NoteListAdapter;
+import com.wulee.notebook.bean.Constant;
 import com.wulee.notebook.bean.Note;
 import com.wulee.notebook.bean.UserInfo;
 import com.wulee.notebook.db.NoteDao;
@@ -70,7 +73,21 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initView();
-        checkUpdate();
+
+        long lastShowNoticeTime = 0L;
+        try {
+            String timeStr = aCache.getAsString(Constant.KEY_LAST_CHECK_UPDATE_TIME);
+            if(!TextUtils.isEmpty(timeStr)){
+                lastShowNoticeTime = Long.parseLong(timeStr);
+            }
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+        }
+        long interal = System.currentTimeMillis() - lastShowNoticeTime;
+        if(interal > Constant.CHECK_UPDATE_INTERVAL){
+            checkUpdate();
+            aCache.put(Constant.KEY_LAST_CHECK_UPDATE_TIME,String.valueOf(System.currentTimeMillis()));
+        }
     }
 
     private void initView() {
@@ -80,6 +97,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
         noteDao = new NoteDao(this);
 
         swipeLayout = findViewById(R.id.swipeLayout);
+        swipeLayout.setColorSchemeColors(ContextCompat.getColor(this, R.color.colorAccent));
         rv_list_main =  findViewById(R.id.rv_list_main);
         tvNodata =  findViewById(R.id.tv_nodata);
         fabMenu =  findViewById(R.id.fab_menu);

@@ -18,6 +18,7 @@ public class Note extends BmobObject implements Serializable{
     private int isEncrypt ;//是否加密，0未加密，1加密
     public UserInfo user;
 
+    private String[] imgUrls;
 
     public String getId() {
         return id;
@@ -65,5 +66,13 @@ public class Note extends BmobObject implements Serializable{
 
     public void setIsEncrypt(int isEncrypt) {
         this.isEncrypt = isEncrypt;
+    }
+
+    public String[] getImgUrls() {
+        return imgUrls;
+    }
+
+    public void setImgUrls(String[] imgUrls) {
+        this.imgUrls = imgUrls;
     }
 }

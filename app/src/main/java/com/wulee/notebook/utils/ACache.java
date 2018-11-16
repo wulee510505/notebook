@@ -43,7 +43,7 @@ public class ACache {
     private static final int MAX_COUNT = Integer.MAX_VALUE; // 不限制存放数据的数量
     private static Map<String, ACache> mInstanceMap = new HashMap<>();
     private ACacheManager mCache;
-    private static String cacheName="bmob-ACache";
+    private static String cacheName="notebook-ACache";
 
     public static ACache get(Context ctx) {
         return get(ctx, cacheName);
